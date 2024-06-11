@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Fran</string>
+    <string name="search_hint">Search in all dictionaries</string>
+    <string name="search_dict_hint">Search in %1$s</string>
+</resources>
