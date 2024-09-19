@@ -13,6 +13,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,7 @@ fun EndlessSearchList(
     onBottomReached: () -> Unit
 ) {
     val listState = rememberLazyListState()
+    val updatedBottomReached by rememberUpdatedState(onBottomReached)
 
     val isBottom by remember {
         derivedStateOf {
@@ -39,7 +41,7 @@ fun EndlessSearchList(
 
     LaunchedEffect(isBottom) {
         if (isBottom) {
-            onBottomReached()
+            updatedBottomReached()
         }
     }
 

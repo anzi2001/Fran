@@ -11,17 +11,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.kockalabs.fran.R
 import com.kockalabs.fran.ui.common.FranSearchField
 import com.kockalabs.fran.ui.screens.home.components.DictionaryList
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(
+    onNavigateToSearch: (Int?) -> Unit,
+    homeViewModel: HomeViewModel = hiltViewModel()
+) {
+    val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -39,10 +46,11 @@ fun HomeScreen(navController: NavController) {
                 .fillMaxWidth(),
             readOnly = true,
             placeholder = stringResource(R.string.search_hint),
-            onSearchClick = { navController.navigate("search") }
+            onSearchClick = { onNavigateToSearch(null) }
         )
-        DictionaryList{
-            navController.navigate("search?dictionaryId=$it")
-        }
+        DictionaryList(
+            dictionaryList = uiState.dictionaryList,
+            onDictionaryClick = { onNavigateToSearch(it) }
+        )
     }
 }

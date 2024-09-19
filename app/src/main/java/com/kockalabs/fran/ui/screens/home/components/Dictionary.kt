@@ -24,13 +24,12 @@ fun Dictionary(
     modifier: Modifier = Modifier,
     onClick: (Int) -> Unit
     ) {
-    val currentOnClick by rememberUpdatedState(onClick)
     Column(
         modifier = modifier
             .width(200.dp)
             .height(300.dp)
             .padding(16.dp)
-            .clickable { currentOnClick(id) },
+            .clickable { onClick(id) },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsyncImage(

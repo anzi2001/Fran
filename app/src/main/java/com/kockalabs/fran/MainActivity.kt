@@ -31,7 +31,9 @@ class MainActivity : ComponentActivity() {
             FranTheme(dynamicColor = false) {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize().safeContentPadding(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .safeContentPadding(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Main()
@@ -54,7 +56,11 @@ fun Main() {
         }
     ) {
         composable("home") {
-            HomeScreen(navController = navController)
+            HomeScreen(
+                onNavigateToSearch = {
+                    navController.navigate("search?dictionaryId=$it")
+                }
+            )
         }
         composable(
             "search?dictionaryId={id}",
@@ -64,12 +70,18 @@ fun Main() {
                 type = NavType.StringType
             })
         ) {
-            SearchScreen(navController = navController)
+            SearchScreen(
+                onNavigateToEntry = {
+                    navController.navigate("entry/$it")
+                }
+            )
         }
-        composable("entry/{id}",
-            arguments = listOf(navArgument("id"){
-                type = NavType.IntType
-            })
+        composable(
+            "entry/{id}",
+            arguments = listOf(
+                navArgument("id") {
+                    type = NavType.IntType
+                })
         ) {
             DetailsScreen()
         }

@@ -31,7 +31,7 @@ import com.kockalabs.fran.ui.common.FranSearchField
 
 @Composable
 fun SearchScreen(
-    navController: NavController,
+    onNavigateToEntry: (Int) -> Unit,
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
@@ -64,7 +64,7 @@ fun SearchScreen(
         EndlessSearchList(
             items = uiState.searchResults,
             onItemClicked = {
-                navController.navigate("entry/${it.id}")
+                onNavigateToEntry(it.id)
             },
             loading = uiState.loading,
             onBottomReached = viewModel::loadNextPage
